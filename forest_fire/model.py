@@ -134,6 +134,8 @@ def onfire(model):
                 count += 1
     return count
 
+def condition(model):
+    return model.condition
 
 def batch_run():
     fix_params = {
@@ -158,16 +160,19 @@ def batch_run():
             "fine": fine,
             "onfire": onfire
         },
+        agent_reporters = {
+            "condition": "condition",
+        }
     ) 
 
     batch_run.run_all()
 
     run_model_data = batch_run.get_model_vars_dataframe()
-    #run_agent_data = batch_run.get_agent_vars_dataframe() 
+    run_agent_data = batch_run.get_agent_vars_dataframe() 
 
     now = datetime.now().strftime("%Y-%m-%d")
     file_name_suffix =  ("_iter_"+str(experiments_per_parameter_configuration)+
                         "_steps_"+str(max_steps_per_simulation)+"lower_firemans"+now
                         )
     run_model_data.to_csv("model_data"+file_name_suffix+".csv")
-    #run_agent_data.to_csv("agent_data"+file_name_suffix+".csv")
+    run_agent_data.to_csv("agent_data"+file_name_suffix+".csv")
