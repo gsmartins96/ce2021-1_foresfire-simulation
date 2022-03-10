@@ -1,40 +1,37 @@
-# Forest Fire Model
+# Fore Fire -- Mudanças
 
-## Summary
+## Apresentação do novo modelo, em relação ao modelo original
 
-The [forest fire model](http://en.wikipedia.org/wiki/Forest-fire_model) is a simple, cellular automaton simulation of a fire spreading through a forest. The forest is a grid of cells, each of which can either be empty or contain a tree. Trees can be unburned, on fire, or burned. The fire spreads from every on-fire tree to unburned neighbors; the on-fire tree then becomes burned. This continues until the fire dies out.
+O modelo original demonstra o fogo se espalhando de acordo com a densidade de árvores no local.
+Foi adicionado um fator "bombeiros" que varia de acordo com a quantidade em relação a densidade de arvores.
+Quanto mais bombeiros, menos o fogo irá se espalhar e quanto menos bombeiros, menos o fogo irá se espalhar e com uma quantidade quase 0 de bombeiros, as chamas se espalharão parecido com o modelo original.
 
-## How to Run
+A váriavel nova "firemans" é uma porcentagem que de acordo com a porcentagem de bombeiros, menor será a chance do fogo se espalhar. 
 
-To run the model interactively, run ``mesa runserver`` in this directory. e.g.
+## Descrição da hipótese causal que você deseja comprovar:
 
-```
-    $ mesa runserver
-```
+Neste novo modelo, desejo comprovar que quanto mais bombeiros em um 
+combate a uma floresta em chamas, menor é a possibilidade do fogo se espalhar
+e maior é as chances do incêndio ser combatido o quanto antes.
 
-Then open your browser to [http://127.0.0.1:8521/](http://127.0.0.1:8521/) and press Reset, then Run.
+## Justificativas para as mudanças que você fez, em relação ao código original:
 
-To view and run the model analyses, use the ``Forest Fire Model`` Notebook.
+Adicionei a váriavel firemans e umas verificação que de acordo com a quantidade de firemans, 
+maior ou  menor será a possibilidade de uma árvore pegar fogo.
 
-## Files
+No momento que o fogo está se alastrando, é gerado aleatóriamente com base na chance que tem de o fogo se espalhar
+Se uma árvore que não foi queimada e a possibilidade de combater o fogo for maior do que o de pegar fogo, a árvore que estiver em chamas, ficará bem (terá a condição de On Fire para Fine).
 
-### ``forest_fire/model.py``
+## Orientação sobre como usar o simulador:
 
-This defines the model. There is one agent class, **TreeCell**. Each TreeCell object which has (x, y) coordinates on the grid, and its condition is *Fine* by default. Every step, if the tree's condition is *On Fire*, it spreads the fire to any *Fine* trees in its [Von Neumann neighborhood](http://en.wikipedia.org/wiki/Von_Neumann_neighborhood) before changing its own condition to *Burned Out*.
+Da mesma forma que usa o modelo original, não foi feito modificações nessa parte.
 
-The **ForestFire** class is the model container. It is instantiated with width and height parameters which define the grid size, and density, which is the probability of any given cell having a tree in it. When a new model is instantiated, cells are randomly filled with trees with probability equal to density. All the trees in the left-hand column (x=0) are set to *On Fire*.
+## Descrição das variáveis armazenadas no arquivo CSV:
 
-Each step of the model, trees are activated in random order, spreading the fire and burning out. This continues until there are no more trees on fire -- the fire has completely burned out.
+firemans: chances de o fogo ser combatido de acordo com a quantidade de bombeiros selecionado (porcentagem)
 
+fine: árvores que não foram queimadas
 
-### ``forest_fire/server.py``
+onfire: árvores que foram queimadas
 
-This code defines and launches the in-browser visualization for the ForestFire model. It includes the **forest_fire_draw** method, which takes a TreeCell object as an argument and turns it into a portrayal to be drawn in the browser. Each tree is drawn as a rectangle filling the entire cell, with a color based on its condition. *Fine* trees are green, *On Fire* trees red, and *Burned Out* trees are black.
-
-## Further Reading
-
-Read about the Forest Fire model on Wikipedia: http://en.wikipedia.org/wiki/Forest-fire_model
-
-This is directly based on the comparable NetLogo model:
-
-Wilensky, U. (1997). NetLogo Fire model. http://ccl.northwestern.edu/netlogo/models/Fire. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
+density: densidade de árvores na floresta
